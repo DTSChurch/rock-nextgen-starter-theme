@@ -1,0 +1,14 @@
+{% comment %}
+    Footer identity block — for an HTML/Lava content block placed in the
+    Site.Master "Footer" zone. The three FooterNav zones alongside it work
+    well with Page Menu blocks using PageSubNav.lava.
+{% endcomment %}
+<div class="site-footer-identity">
+    <h4>{{ 'Global' | Attribute:'OrganizationName' }}</h4>
+    <p>
+        {{ 'Global' | Attribute:'OrganizationAddress' }}<br>
+        {{ 'Global' | Attribute:'OrganizationPhone' }}<br>
+        <a href="mailto:{{ 'Global' | Attribute:'OrganizationEmail' }}">{{ 'Global' | Attribute:'OrganizationEmail' }}</a>
+    </p>
+    <p><small>&copy; {{ 'Now' | Date:'yyyy' }} {{ 'Global' | Attribute:'OrganizationName' }}</small></p>
+</div>

@@ -1,0 +1,143 @@
+// Design tokens: the theme's OWN base palette, declared on :root.
+//
+// ---------------------------------------------------------------------------
+// WHY THIS FILE DECLARES VALUES INSTEAD OF ONLY var() FALLBACKS
+//
+// `styles-v2/core.css` (imported by theme.scss) declares the entire `--base-*`
+// set on `:root` itself — `--base-primary: #FF791D`, the seven
+// `--base-interface-*` greys, the status colours — and then derives every
+// `--color-*` token from them:
+//
+//     --color-primary:            var(--base-primary);
+//     --color-interface-stronger: var(--base-interface-stronger);
+//     [theme=light] { --color-danger-strong: var(--base-danger); ... }
+//
+// A `var(--x, fallback)` fallback applies ONLY when `--x` is genuinely unset.
+// Because core.css always sets the base tokens, a fallback written as
+// `var(--color-primary, #2563eb)` is DEAD CODE — the site would render Rock's
+// default orange. So the theme must declare its own value for every base token
+// whose default differs from Rock's.
+//
+// This `:root` block is emitted AFTER the `@import` of core.css (dart-sass
+// hoists plain-CSS imports to the top of the compiled bundle), so it wins over
+// core's defaults at equal specificity. Rock's "CSS Overrides Bottom" region is
+// written at the very END of theme.css, so the admin fields editor still wins
+// over this block — the chain theme.json -> :root -> --color-* -> rules is
+// intact in both directions.
+//
+// Only the `--base-*` layer is declared here, never the derived `--color-*`
+// layer: core's `[theme=dark]` and `prefers-color-scheme: dark` scopes remap
+// `--color-*` off the same base tokens (swapping the interface ramp end for
+// end), and overriding the derived layer would break that inversion.
+//
+// KEEP IN SYNC WITH theme.json: every value below is the `default` of the
+// matching theme.json field. `npm run check` (tools/check-theme.mjs) fails the
+// build if they drift.
+// ---------------------------------------------------------------------------
+
+:root {
+  // --- Brand ---------------------------------------------------------------
+  --base-primary: #2563eb;
+  --base-secondary: #1e293b;
+  --base-link: #2563eb;
+
+  // --- Interface scale (Rock's stock ramp) ----------------------------------
+  // Declared so theme.json's defaults are authoritative rather than silently
+  // depending on core.css never changing. Swap these for your own grey ramp if
+  // your brand needs one — dark mode keeps working either way, because core
+  // derives both light and dark `--color-interface-*` from these base rungs.
+  --base-interface-strongest: #0a0a0a;
+  --base-interface-stronger: #0d1117;
+  --base-interface-strong: #3d444d;
+  --base-interface-medium: #8b8ba7;
+  --base-interface-soft: #d9d9e3;
+  --base-interface-softer: #f8f8fc;
+  --base-interface-softest: #fdfdfd;
+
+  // --- Status (Rock's stock values) ------------------------------------------
+  --base-danger: #d70015;
+  --base-success: #01a11e;
+  --base-warning: #e58600;
+  --base-info: #005dd7;
+  --base-critical: #ee7725;
+
+  // --- Typography ------------------------------------------------------------
+  // core.css defines both families as var(--font-family-sans); declaring them
+  // here makes the theme.json defaults authoritative. Point these at a webfont
+  // (and @import it at the top of _theme.scss) to change the site's type.
+  --font-family-title: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-family-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  // core.css consumes --font-size-regular throughout its component scale, so
+  // changing this one field in the admin editor rescales Rock's components.
+  --font-size-regular: 16px;
+  --font-size-h1: 44px;
+  --font-size-h2: 36px;
+  --font-size-h3: 28px;
+  --font-size-h4: 22px;
+  --font-size-h5: 18px;
+  --font-size-h6: 16px;
+
+  // --- Theme-owned surfaces ----------------------------------------------------
+  // These are NOT core tokens — they exist only in this theme, driven by the
+  // matching theme.json fields. Declared as literals, not self-referencing
+  // var() chains: a custom property that references itself is a dependency
+  // cycle and resolves to nothing at computed-value time (CSS Variables §3).
+  --site-header-background: #0f172a;
+  --site-footer-background: #0f172a;
+  --page-title-background: #1e293b;
+  --page-title-foreground: #ffffff;
+
+  // Logo box dimensions. A background-image box has no intrinsic size, so both
+  // must be explicit; `contain` in _theme.scss letterboxes a mismatched ratio
+  // rather than distorting it. Both are theme.json fields so an admin uploading
+  // a differently-shaped logo can correct them.
+  --logo-height: 40px;
+  --logo-aspect: 180 / 40;
+}
+
+// The rem root, driven by the same token the fields editor owns.
+html {
+  font-size: var(--font-size-regular, 16px);
+}
+
+// ---------------------------------------------------------------------------
+// OPTIONAL: PIN THE PUBLIC SITE TO LIGHT MODE
+//
+// This theme ships with dark mode ON — that is one of the NextGen system's
+// headline capabilities, and core.css does all the work. Some public sites,
+// though, need the brand to render identically for every visitor.
+//
+// Setting <html theme="light"> in Site.Master is NOT enough: RockPage injects
+// a script on every page that overwrites the attribute from localStorage,
+// defaulting to "system" (which honours prefers-color-scheme). And writing
+// localStorage yourself would force the admin site — same origin — to light
+// for the same user.
+//
+// The reliable approach is to neutralise the dark scopes in CSS.
+// `:root[theme="..."]` is specificity (0,2,0), which beats core's
+// `[theme=dark]` (0,1,0) and its `@media (prefers-color-scheme: dark) :root`
+// block regardless of source order. Uncomment to pin light; delete to restore
+// dark mode. Nothing else depends on this block.
+//
+// :root,
+// :root[theme="dark"],
+// :root[theme="system"] {
+//   --color-interface-strongest: var(--base-interface-strongest);
+//   --color-interface-stronger:  var(--base-interface-stronger);
+//   --color-interface-strong:    var(--base-interface-strong);
+//   --color-interface-medium:    var(--base-interface-medium);
+//   --color-interface-soft:      var(--base-interface-soft);
+//   --color-interface-softer:    var(--base-interface-softer);
+//   --color-interface-softest:   var(--base-interface-softest);
+//
+//   --color-critical-strong: var(--base-critical);
+//   --color-danger-strong:   var(--base-danger);
+//   --color-info-strong:     var(--base-info);
+//   --color-success-strong:  var(--base-success);
+//   --color-warning-strong:  var(--base-warning);
+//
+//   --box-shadow: rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px;
+//   --box-shadow-strong: rgba(145, 158, 171, 0.2) 0px 20px 25px -5px, rgba(145, 158, 171, 0.12) 0px 10px 10px -5px;
+//   --popup-box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+// }

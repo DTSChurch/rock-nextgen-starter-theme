@@ -1,0 +1,45 @@
+// NextGen Starter — theme entry point.
+//
+// BUILD: npm run build   (dart-sass -> Styles/theme.css)
+//
+// theme.css is MACHINE-OWNED once deployed: Rock's ThemeService.BuildTheme
+// rewrites the marker regions below in place whenever theme settings are saved
+// in the admin fields editor. Never hand-edit theme.css; edit this file (or the
+// partials it imports) and rebuild.
+//
+// MARKER STRINGS ARE A ROCK CONSTANT — DO NOT REWORD THEM.
+// Rock v18's Rock.Cms.ThemeOverrideBuilder holds them as exact literals:
+//   TopOverrideStartMarker    "/* CSS Overrides Top Start */"
+//   TopOverrideEndMarker      "/* CSS Overrides Top End */"
+//   BottomOverrideStartMarker "/* CSS Overrides Bottom Start */"
+//   BottomOverrideEndMarker   "/* CSS Overrides Bottom End */"
+// The word "Start" is load-bearing: without it Rock's strip regex matches zero
+// bytes, the region is never rewritten, and nothing declared in theme.json —
+// including base-primary — ever reaches the browser. Rock writes the icon-set
+// @imports into the Top region and the theme.json variable values (plus any
+// admin "custom CSS overrides") into the Bottom region.
+//
+// ORDERING (verified against dart-sass 1.x):
+// All `@use` rules must precede any other rule in this file, including the
+// plain-CSS `@import` of core.css below — reversing them is a hard compile
+// error ("@use rules must be written before any other rules."). Comments do
+// not count as rules, so the marker comments may sit above the `@use` block.
+//
+// dart-sass never inlines a literal ".css" import — it passes it through
+// verbatim and hoists it to the top of the compiled output, ahead of any rule
+// content. So core.css still loads before this theme's own rules in the
+// browser, and the `:root` declarations in _tokens.scss win over core's
+// defaults at equal specificity because they appear later in the file.
+
+/* CSS Overrides Top Start */
+/* CSS Overrides Top End */
+
+@use "tokens";
+@use "components";
+
+// Rock v18 design tokens + BS3-compatible component surface + dark-mode scopes.
+// Path is relative to RockWeb root: Themes/<Name>/Styles/ -> ../../../Styles/
+@import "../../../Styles/styles-v2/core.css";
+
+/* CSS Overrides Bottom Start */
+/* CSS Overrides Bottom End */

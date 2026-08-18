@@ -1,0 +1,51 @@
+{% comment %}
+    Main site navigation — designed for the Page Menu block placed in the
+    Site.Master "Nav" zone.
+
+    Block settings:
+      * Template:            {% include '~~/Assets/Lava/PageNav.lava' %}
+      * Number of Levels:    2
+
+    Markup contract (styled by Styles/_theme.scss, driven by Assets/Scripts/theme.js):
+      ul.site-nav > li.site-nav-item[.has-children][.active]
+        > a
+        > button.site-nav-caret        (mobile submenu toggle)
+        > ul.site-nav-dropdown > li[.active] > a
+
+    Dropdowns open on hover/focus on desktop and via the caret button on
+    mobile. This template renders two levels; deeper page nesting belongs in a
+    sub-navigation block (see PageSubNav.lava).
+{% endcomment %}
+{% if Page.DisplayChildPages and Page.Pages != empty %}
+<ul class="site-nav">
+    {% for childPage in Page.Pages %}
+        {% assign grandchildCount = childPage.Pages | Size %}
+        {% if grandchildCount == 0 %}
+            <li class="site-nav-item{% if childPage.Current %} active{% endif %}">
+                <a href="{{ childPage.Url }}">{{ childPage.Title }}</a>
+            </li>
+        {% else %}
+            <li class="site-nav-item has-children{% if childPage.Current or childPage.IsParentOfCurrent %} active{% endif %}">
+                <a href="{{ childPage.Url }}">{{ childPage.Title }}</a>
+                <button type="button" class="site-nav-caret" aria-expanded="false" aria-label="Toggle {{ childPage.Title | Escape }} submenu"></button>
+                <ul class="site-nav-dropdown">
+                    {% for grandchildPage in childPage.Pages %}
+                        <li{% if grandchildPage.Current %} class="active"{% endif %}>
+                            <a href="{{ grandchildPage.Url }}">{{ grandchildPage.Title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endif %}
+    {% endfor %}
+
+    {% comment %} Extra pages configured on the block's "Include Page List" setting. {% endcomment %}
+    {% assign currentPath = 'Global' | Page:'Path' %}
+    {% for includedPage in IncludePageList %}
+        {% assign attributeParts = includedPage | PropertyToKeyValue %}
+        <li class="site-nav-item{% if currentPath == attributeParts.Value %} active{% endif %}">
+            <a href="{{ attributeParts.Value }}">{{ attributeParts.Key }}</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endif %}

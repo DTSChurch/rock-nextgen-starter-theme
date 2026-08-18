@@ -1,0 +1,75 @@
+{
+  "$schema": "https://community.rockrms.com/schema/2024-10-01/theme.schema.json",
+  "name": "NextGen Starter",
+  "description": "A generic external (public website) theme built on Rock v18's NextGen theme system: theme.json fields, the styles-v2 design tokens, and dark mode.",
+  "purpose": "web",
+  "availableIconSets": ["fontawesome", "tabler"],
+  "fields": [
+    {
+      "type": "panel",
+      "title": "Brand",
+      "expanded": true,
+      "fields": [
+        { "type": "color", "name": "Primary Color",   "variable": "base-primary",   "default": "#2563eb" },
+        { "type": "color", "name": "Secondary Color", "variable": "base-secondary", "default": "#1e293b" },
+        { "type": "color", "name": "Link Color",      "variable": "base-link",      "default": "#2563eb" },
+        { "type": "image", "name": "Site Logo",       "variable": "logo-image",
+          "description": "Shown in the site header. For best results use a white SVG. If you rename the theme folder, update this default path too.",
+          "default": "~/Themes/NextGenStarter/Assets/Images/logo.svg" },
+        { "type": "literal", "name": "Site Logo Height",       "variable": "logo-height", "default": "40px" },
+        { "type": "literal", "name": "Site Logo Aspect Ratio", "variable": "logo-aspect", "default": "180 / 40" }
+      ]
+    },
+    {
+      "type": "panel",
+      "title": "Header & Footer",
+      "fields": [
+        { "type": "color", "name": "Header Background",     "variable": "site-header-background",  "default": "#0f172a" },
+        { "type": "color", "name": "Page Title Background", "variable": "page-title-background",   "default": "#1e293b" },
+        { "type": "color", "name": "Page Title Text",       "variable": "page-title-foreground",   "default": "#ffffff" },
+        { "type": "color", "name": "Footer Background",     "variable": "site-footer-background",  "default": "#0f172a" }
+      ]
+    },
+    {
+      "type": "panel",
+      "title": "Interface Colors",
+      "fields": [
+        { "type": "color", "name": "Interface Color Strongest", "variable": "base-interface-strongest", "default": "#0a0a0a" },
+        { "type": "color", "name": "Interface Color Stronger",  "variable": "base-interface-stronger",  "default": "#0d1117" },
+        { "type": "color", "name": "Interface Color Strong",    "variable": "base-interface-strong",    "default": "#3d444d" },
+        { "type": "color", "name": "Interface Color Medium",    "variable": "base-interface-medium",    "default": "#8b8ba7" },
+        { "type": "color", "name": "Interface Color Soft",      "variable": "base-interface-soft",      "default": "#d9d9e3" },
+        { "type": "color", "name": "Interface Color Softer",    "variable": "base-interface-softer",    "default": "#f8f8fc" },
+        { "type": "color", "name": "Interface Color Softest",   "variable": "base-interface-softest",   "default": "#fdfdfd" }
+      ]
+    },
+    {
+      "type": "panel",
+      "title": "Status Colors",
+      "fields": [
+        { "type": "color", "name": "Danger Color",   "variable": "base-danger",   "default": "#d70015" },
+        { "type": "color", "name": "Success Color",  "variable": "base-success",  "default": "#01a11e" },
+        { "type": "color", "name": "Warning Color",  "variable": "base-warning",  "default": "#e58600" },
+        { "type": "color", "name": "Info Color",     "variable": "base-info",     "default": "#005dd7" },
+        { "type": "color", "name": "Critical Color", "variable": "base-critical", "default": "#ee7725" }
+      ]
+    },
+    {
+      "type": "panel",
+      "title": "Typography",
+      "fields": [
+        { "type": "literal", "name": "Title Font Family", "variable": "font-family-title",
+          "default": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" },
+        { "type": "literal", "name": "Body Font Family", "variable": "font-family-body",
+          "default": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" },
+        { "type": "literal", "name": "Regular Font Size", "variable": "font-size-regular", "default": "16px" },
+        { "type": "literal", "name": "H1 Font Size", "variable": "font-size-h1", "default": "44px" },
+        { "type": "literal", "name": "H2 Font Size", "variable": "font-size-h2", "default": "36px" },
+        { "type": "literal", "name": "H3 Font Size", "variable": "font-size-h3", "default": "28px" },
+        { "type": "literal", "name": "H4 Font Size", "variable": "font-size-h4", "default": "22px" },
+        { "type": "literal", "name": "H5 Font Size", "variable": "font-size-h5", "default": "18px" },
+        { "type": "literal", "name": "H6 Font Size", "variable": "font-size-h6", "default": "16px" }
+      ]
+    }
+  ]
+}

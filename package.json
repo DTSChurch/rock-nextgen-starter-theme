@@ -1,0 +1,14 @@
+{
+  "name": "rock-nextgen-starter-theme",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A generic external-site starter theme for Rock RMS v18's NextGen (theme.json / styles-v2) theme system",
+  "scripts": {
+    "build": "sass --no-source-map --style=expanded Styles/theme.scss Styles/theme.css",
+    "watch": "sass --watch --no-source-map Styles/theme.scss Styles/theme.css",
+    "check": "node tools/check-theme.mjs && node tools/check-master-bindings.mjs"
+  },
+  "devDependencies": {
+    "sass": "^1.102.0"
+  }
+}
